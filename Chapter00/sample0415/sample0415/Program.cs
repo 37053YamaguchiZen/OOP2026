@@ -33,7 +33,7 @@
         }
         static void astOut(int num)
         {
-            for (int j = 0;j < array[i]; j++)
+            for (int j = 0;j < num; j++)
             {
                 Console.Write("*");
             }
