@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -13,5 +14,6 @@ namespace SalesCalculator {
         public string ProductCategory { get; set; } = string.Empty;
         //売上高
         public int Amount { get; set; }
+
     }
 }
