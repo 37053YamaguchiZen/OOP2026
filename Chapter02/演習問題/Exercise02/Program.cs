@@ -1,11 +1,13 @@
 ﻿namespace Exercise02 {
     internal class Program {
         static void Main(string[] args) {
-            PrintFeetToMeterList(1,10);
+            PrintInchToMeterList(1,10);
         }
-
-        private static void PrintFeetToMeterList(int x1, int x2) {
-
+            private static void PrintInchToMeterList(int start, int stop) {
+            for (int Inch = start; Inch <= stop; Inch++) {
+                double meter = InchConverter.ToMeter(Inch);
+                Console.WriteLine($"{Inch}Inch = {meter:0.0000}m");
+            }
         }
     }
 }
