@@ -6,14 +6,14 @@ namespace Exercise01 {
     internal class Program {
         static void Main(string[] args) {
             // 2.1.3
+            var songs = new List<Song>();
 
             while (true) {
-                var songs = new List<Song>();
 
                 Console.Write("曲名：");
                 string? title = Console.ReadLine();
 
-                if (title == "end") {
+                if (title == "end") { break; } else{
 
                     Console.Write("アーティスト名：");
                     string? srtistname = Console.ReadLine();
@@ -26,6 +26,7 @@ namespace Exercise01 {
                     songs.Add(song);
                 }
             }
+            PrintSongs(songs);
         }
         //Mainメソッド内の PrintSongs(songs); をクリックして
         //Alt + Enterを押すと、以下のメソッドが自動的に作成される
