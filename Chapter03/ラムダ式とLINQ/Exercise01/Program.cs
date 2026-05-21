@@ -1,4 +1,6 @@
-﻿namespace Exercise01 {
+﻿using System;
+
+namespace Exercise01 {
     internal class Program {
         static void Main(string[] args) {
             var numbers = new List<int> { 12, 87, 94, 14, 53, 20, 40, 35, 76, 91, 31, 17, 48 };
@@ -23,13 +25,16 @@
             var exists = numbers.Exists(n => n % 8 == 0 || n % 9 == 0);
             if (exists == true) {
                 Console.WriteLine("存在しています");
+            } else {
+                Console.WriteLine("存在していません");
             }
             
         }
 
         private static void Exercise2(List<int> numbers) {
+            numbers.ForEach(n => Console.WriteLine(n / 2.0));
 
-        }
+            }
 
         private static void Exercise3(List<int> numbers) {
 
