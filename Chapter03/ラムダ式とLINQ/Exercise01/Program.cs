@@ -37,11 +37,11 @@ namespace Exercise01 {
             }
 
         private static void Exercise3(List<int> numbers) {
-
+            numbers.Where(n => n > 50).ToList().ForEach(n => Console.WriteLine(n));
         }
 
         private static void Exercise4(List<int> numbers) {
-
+    
+            }
         }
     }
-}
