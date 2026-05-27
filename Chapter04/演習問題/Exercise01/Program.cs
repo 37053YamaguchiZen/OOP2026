@@ -17,21 +17,27 @@ namespace Exercise01 {
 
             Exercise3(langs);
         }
-
+        
         private static void Exercise1(List<string> langs) {
-            var where = langs.Where(n => n.Contains('s')).ToList(); 
-            foreach (var item in where) {
-                Console.WriteLine(item);
-           
-                    }
-            for(int i = 0; i < where.Count(); i++) {
-                Console.WriteLine(where);
+
+            Console.WriteLine("foreach文で出力");
+            foreach (var lang in langs) {
+                if(lang.Contains('S'))
+                Console.WriteLine(lang);
             }
-            int a = 0;
-            while (true) {
-                Console.WriteLine(where[a]);
-                a = a + 1;
-                if(a == where.Count()) { break; }
+
+            Console.WriteLine("for文で出力");
+            for (int i = 0; i < langs.Count(); i++) {
+                if (langs[i].Contains('S'))
+                    Console.WriteLine(langs[i]);
+            }
+
+            Console.WriteLine("while文で出力");
+            int count = 0;
+            while (count < langs.Count) {
+                if (langs[count].Contains('S'))
+                Console.WriteLine(langs[count]);
+                count++;
             }
         }
 
