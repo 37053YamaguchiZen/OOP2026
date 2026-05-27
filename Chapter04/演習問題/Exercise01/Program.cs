@@ -43,9 +43,12 @@ namespace Exercise01 {
 
         private static void Exercise2(List<string> langs) {
 
+            //LINQを使用する(Where)
+            var selected = langs.Where(s => s.Contains('S'));
+            foreach (var lang in selected) {
+                Console.WriteLine(lang);
+            }
         }
 
-        private static void Exercise3(List<string> langs) {
         }
     }
-}
