@@ -10,7 +10,7 @@ namespace Exercise02 {
             Console.WriteLine("--- 4.2.2 ---");
             Exercise2();
             Console.WriteLine("--- 4.2.3 ---");
-            Exercise3();
+            //Exercise3();
         }
 
 
@@ -47,18 +47,17 @@ namespace Exercise02 {
                 }
         }
 
-        private static void Exercise3() {
-            var s = Console.ReadLine();
-            if (int.TryParse(s, out var num)) {
-                var outNum = num switch {
-                    < 0 => num,
-                    < 100 => num * 2,
-                    < 500 => num * 3,
-                => num
-
-                };
-                Console.WriteLine(outNum);
-            }
-        }
+        //private static void Exercise3() {
+            //var s = Console.ReadLine();
+            //if (int.TryParse(s, out var num)) {
+                //var outNum = num switch {
+                    //< 0 => num,
+                    //< 100 => num * 2,
+                    //< 500 => num * 3,
+               // => num
+               // };
+               // Console.WriteLine(outNum);
+           // }
+       // }
     }
 }
