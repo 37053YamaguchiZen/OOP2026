@@ -82,13 +82,10 @@ namespace Exercise03 {
                 //配列を用いた集計
                 var array = Enumerable.Repeat(0, 26).ToArray();
                 foreach (var alph in str) {
-                    array[alph] - 'a']++;
+                    array[alph - 'a']++;
                 }
                     for (char ch = 'a'; ch <= 'z'; ch++) {
                     Console.WriteLine($"{ ch}:{ array[ch - 'a']}");
-                }
-                foreach(var num in array) {
-                    Console.WriteLine(num);
                 }
             //'a'から順にカウントして集計
 
