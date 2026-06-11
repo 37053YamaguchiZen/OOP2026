@@ -62,20 +62,20 @@ namespace Exercise03 {
 
             //辞書(ディクショナリ)を使った集計
             var alphDicCount = Enumerable.Range('a', 26);
-            ToDictionary(num => ((char)num).ToString(),num => 0);
+            ToDictionary(num => ((char)num).ToString(), num => 0);
 
-            foreach(var c in str) {
+            foreach (var c in str) {
                 alphDicCount[c]++;
             }
-            foreach(var word in alphDicCount) {
+            foreach (var word in alphDicCount) {
 ) {
-                Console.WriteLine(word.Key + " " + word.Value);
-            }
+                    Console.WriteLine(word.Key + " " + word.Value);
+                }
                 var array = Enumerable.Repeat(0, 26).ToArray();
-                foreach(var alph in str){
+                foreach (var alph in str) {
                     array[alph] - 'a']++;
                 }
-                foreach(var word in alphDicCount) {
+                foreach (var word in alphDicCount) {
                     Console.WriteLine(word.Key + ":" + word.Value);
                 }
                 Console.WriteLine();
@@ -84,12 +84,16 @@ namespace Exercise03 {
                 foreach (var alph in str) {
                     array[alph - 'a']++;
                 }
-                    for (char ch = 'a'; ch <= 'z'; ch++) {
-                    Console.WriteLine($"{ ch}:{ array[ch - 'a']}");
+                for (char ch = 'a'; ch <= 'z'; ch++) {
+                    Console.WriteLine($"{ch}:{array[ch - 'a']}");
                 }
-            //'a'から順にカウントして集計
+                //'a'から順にカウントして集計
 
+                for (char ch = 'a'; ch <= 'z'; ch++) {
+                    Console.WriteLine($"{ch}:{str.Count(c => c == ch)}");
+                }
+            }
         }
-    }
+    } 
 }
 
