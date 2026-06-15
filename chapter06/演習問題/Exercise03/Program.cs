@@ -62,21 +62,21 @@ namespace Exercise03 {
 
             //辞書(ディクショナリ)を使った集計
             var alphDicCount = Enumerable.Range('a', 26);
-            ToDictionary(num => ((char)num).ToString(), num => 0);
+            //ToDictionary(num => ((char)num).ToString(), num => 0);
 
-            foreach (var c in str) {
-                alphDicCount[c]++;
-            }
-            foreach (var word in alphDicCount) {
+           // foreach (var c in str) {
+           //     alphDicCount[c]++;
+          //  }
+           // foreach (var word in alphDicCount) {
 ) {
-                    Console.WriteLine(word.Key + " " + word.Value);
+                    //Console.WriteLine(word.Key + " " + word.Value);
                 }
-                var array = Enumerable.Repeat(0, 26).ToArray();
+             //   var array = Enumerable.Repeat(0, 26).ToArray();
                 foreach (var alph in str) {
-                    array[alph] - 'a']++;
+              //      array[alph] - 'a']++;
                 }
                 foreach (var word in alphDicCount) {
-                    Console.WriteLine(word.Key + ":" + word.Value);
+                //    Console.WriteLine(word.Key + ":" + word.Value);
                 }
                 Console.WriteLine();
                 //配列を用いた集計
@@ -95,5 +95,5 @@ namespace Exercise03 {
             }
         }
     } 
-}
+//}
 
