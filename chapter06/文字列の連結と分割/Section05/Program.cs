@@ -3,12 +3,13 @@
 namespace Section05 {
     internal class Program {
         static void Main(string[] args) {
-            var result = String.Join(",", GetWords());
-                    );
+            var result = String.Join(" ", GetWords());
                 Console.WriteLine(result);
             }
         private static IEnumerable<object> GetWords() {
-            return ["ornge", "Lemon", "Strawberry"];
+           return ["jackdaws", "love", "my", "big", "sphinx", "of", "quartz"];
+
 ;        }
+
     }
 }
