@@ -33,20 +33,22 @@ namespace Exercise01 {
         }
 
         private static void Exercise3(int[] numbers) {
-            var strings = numbers.Select(x => x.ToString("000")).ToArray();
-            foreach (var number in strings) {
-                Console.WriteLine(number);
+            var strings = numbers.Select(x => x.ToString("000"));
+            foreach (var s in strings) {
+                Console.WriteLine(s);
             }
         }
 
         private static void Exercise4(int[] numbers) {
             var sortedNumbers = numbers.OrderBy(x => x).Take(3);
-            foreach(var number in sortedNumbers) {
-                Console.WriteLine(number);
+            foreach(var n in sortedNumbers) {
+                Console.WriteLine(n);
             }
         }
 
         private static void Exercise5(int[] numbers) {
+            var results = numbers.Distinct().Count(n => 10 < n);
+                Console.WriteLine(results);
         }
     }
 }
