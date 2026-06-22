@@ -15,13 +15,10 @@ namespace Exercise02 {
             #region
             Console.WriteLine("\n7.2.1");
             Exercise1(books);
-            var titel = books.FirstOrDefault(x => x.Title.Equals("ワンダフル・C#ライフ"));
-            Console.WriteLine(titel.Price);
-            Console.WriteLine(titel.Pages);
 
             Console.WriteLine("\n7.2.2");
             Exercise2(books);
-
+      
             Console.WriteLine("\n7.2.3");
             Exercise3(books);
 
@@ -40,19 +37,28 @@ namespace Exercise02 {
         }
 
         private static void Exercise1(List<Book> books) {
-
+            var titel = books.FirstOrDefault(x => x.Title.Equals("ワンダフル・C#ライフ"));
+            Console.WriteLine(titel.Price);
+            Console.WriteLine(titel.Pages);
         }
 
         private static void Exercise2(List<Book> books) {
-
+            var count = books.Where(b => b.Title.Contains("C#")).Count();
+            Console.WriteLine(count);
         }
 
         private static void Exercise3(List<Book> books) {
-
+            var average = books
+                .Where(b => b.Title.Contains("C#"))
+                .Average(b => b.Pages);
+            Console.WriteLine(average);
         }
 
         private static void Exercise4(List<Book> books) {
-
+            var book = books.FirstOrDefault();
+            if(book is not null) {
+                Console.WriteLine(book.Title);
+            }
         }
 
         private static void Exercise5(List<Book> books) {
@@ -60,11 +66,21 @@ namespace Exercise02 {
         }
 
         private static void Exercise6(List<Book> books) {
-
+            var selected = books
+                           .Where(b => b.Pages >= 400)
+                           .OrderByDescending(b => b.Price);
+            foreach(var book in selected) {
+                Console.WriteLine("{0} {1}" , book.Title, book.Price);
+            }
         }
 
         private static void Exercise7(List<Book> books) {
-
+            var selected = books
+                           .Where(b => b.Title.Contains("C#") && b.Pages <= 500)
+                           .Select(b => b.Title);
+            foreach (var title in selected) {
+                Console.WriteLine(title);
+            }
         }
     }
 }
