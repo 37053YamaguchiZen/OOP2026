@@ -14,7 +14,7 @@
             foreach (var line in lines) {
                 var items = line.Split(',');
                 var sale = new Student {
-                    name = items[0],
+                    Name = items[0],
                     Subject = items[1],
                     Score = int.Parse(items[2])
                 };
@@ -27,10 +27,10 @@
         public IDictionary<string, int> GetPerStudentScore() {
             var dict = new Dictionary<string, int>();
             foreach (var sale in _score) {
-                if (dict.ContainsKey(sale.name))
-                    dict[sale.name] += sale.Score;
+                if (dict.ContainsKey(sale.Name))
+                    dict[sale.Name] += sale.Score;
                 else
-                    dict[sale.name] = sale.Score;
+                    dict[sale.Name] = sale.Score;
             }
                 return dict;
         }
