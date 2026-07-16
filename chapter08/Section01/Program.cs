@@ -30,7 +30,7 @@ namespace Section01 {
                 prefOfficeDict[pref] = prefCaptalLocation;
 
                 Console.WriteLine();
-        }
+            }
             Boolean endFlag = false;
             while (true) {
                 switch (menuDisp()) {

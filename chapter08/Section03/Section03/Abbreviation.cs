@@ -9,12 +9,12 @@ namespace Section03 {
         private readonly Dictionary<string, string> _dict = new();
 
         // コンストラクター
-        public Abbreviations() {
-            var lines = File.ReadAllLines("./Abbreviations.txt");
-            _dict = lines
-                .Select(line => line.Split('='))
-                .ToDictionary(x => x[0], x => x[1]);
-        }
+        //public Abbreviations() {
+            //var lines = File.ReadAllLines("./Abbreviations.txt");
+            //_dict = lines
+                //.Select(line => line.Split('='))
+                //.ToDictionary(x => x[0], x => x[1]);
+        //}
 
         // 要素を追加
         public void Add(string abbr, string japanese) =>
