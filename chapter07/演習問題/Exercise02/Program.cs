@@ -39,7 +39,7 @@ namespace Exercise02 {
         private static void Exercise1(List<Book> books) {
             var titel = books.FirstOrDefault(x => x.Title.Equals("ワンダフル・C#ライフ"));
             Console.WriteLine(titel.Price);
-            Console.WriteLine(titel.Pages);
+            Console.WriteLine(titel.Pages);　
         }
 
         private static void Exercise2(List<Book> books) {
