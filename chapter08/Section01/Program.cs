@@ -49,7 +49,7 @@ namespace Section01 {
             }
         }
 
-        private static void menuDisp() {
+        private static int menuDisp() {
             Console.WriteLine("**** メニュー ****");
             Console.WriteLine("1:一覧表示");
             Console.WriteLine("2:検索");
@@ -58,7 +58,7 @@ namespace Section01 {
 
             var menuSelect = int.Parse(Console.ReadLine());
 
-            //return menuSelect;
+            return menuSelect;
         }
 
         private static void allDisp() {

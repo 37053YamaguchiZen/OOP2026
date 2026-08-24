@@ -1,4 +1,5 @@
-ï»¿using System.ComponentModel;
+using System.ComponentModel;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Xml;
 using System.Xml.Serialization;
 using static CarReportSystem.CarReport;
@@ -6,10 +7,10 @@ using static CarReportSystem.CarReport;
 namespace CarReportSystem {
     public partial class Form1 : Form {
 
-        //ã‚«ãƒ¼ãƒ¬ãƒãƒ¼ãƒˆç®¡ç†ç”¨ãƒªã‚¹ãƒˆ
+        //ƒJ[ƒŒƒ|[ƒgŠÇ——pƒŠƒXƒg
         BindingList<CarReport> listCarReports = new BindingList<CarReport>();
 
-        //è¨­å®šã‚¯ãƒ©ã‚¹ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç”Ÿæˆ
+        //İ’èƒNƒ‰ƒX‚ÌƒIƒuƒWƒFƒNƒg‚ğ¶¬
         Settings settings = new Settings();
 
         public Form1() {
@@ -18,35 +19,38 @@ namespace CarReportSystem {
         }
 
         private void Form1_Load(object sender, EventArgs e) {
-            //è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«ã‚’èª­ã¿è¾¼ã¿èƒŒèƒŒæ™¯ã‚’è¨­å®šã™ã‚‹ï¼ˆé€†ã‚·ãƒªã‚¢ãƒ«åŒ–ï¼‰
-            //P286ä»¥é™ã‚’å‚è€ƒã«ã™ã‚‹ï¼ˆãƒ•ã‚¡ã‚¤ãƒ«å:setting.xmll)
+            //İ’èƒtƒ@ƒCƒ‹‚ğ“Ç‚İ‚İ”wŒiF‚ğİ’è‚·‚éi‹tƒVƒŠƒAƒ‹‰»j
 
-            //ãƒ•ã‚¡ã‚¤ãƒ«ãŒå­˜åœ¨ã™ã‚‹ã‹ï¼Ÿ
-            if ( /* P216ä»¥é™ã‚’èª¿ã¹ã‚‹ */ ) {
+            //ƒtƒ@ƒCƒ‹‚ª‘¶İ‚·‚é‚©H
+            if (File.Exists("setting.xml")) {
                 try {
 
-
-
-
+                    //P286ˆÈ~‚ğQl‚É‚·‚éiƒtƒ@ƒCƒ‹–¼Fsetting.xmlj
+                    using (var reader = XmlReader.Create("setting.xml")) {
+                        var serializer = new XmlSerializer(typeof(Settings));
+                        settings = serializer.Deserialize(reader) as Settings;
+                        //”wŒiFİ’è
+                        BackColor = Color.FromArgb(settings.MainFormBackColor);
+                    }
                 }
                 catch (Exception ex) {
-                    tsslbMessage.Text = "è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«èª­ã¿è¾¼ã¿ã‚¨ãƒ©ãƒ¼";
-                    MessageBox.Show(ex.Message);//â†ã‚ˆã‚Šå…·ä½“çš„ãªã‚¨ãƒ©ãƒ¼ã‚’å‡ºåŠ›
+                    tsslbMessage.Text = "İ’èƒtƒ@ƒCƒ‹“Ç‚İ‚İƒGƒ‰[";
+                    MessageBox.Show(ex.Message);//©‚æ‚è‹ï‘Ì“I‚ÈƒGƒ‰[‚ğo—Í         
                 }
             } else {
-                tsslbMessage.Text = "è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«ãŒã‚ã‚Šã¾ã›ã‚“";
+                tsslbMessage.Text = "İ’èƒtƒ@ƒCƒ‹‚ª‚ ‚è‚Ü‚¹‚ñ";
             }
         }
 
-        //è¿½åŠ ãƒœã‚¿ãƒ³ã‚¤ãƒ™ãƒ³ãƒˆãƒãƒ³ãƒ‰ãƒ©
+        //’Ç‰Áƒ{ƒ^ƒ“ƒCƒxƒ“ƒgƒnƒ“ƒhƒ‰
         private void btAddRecord_Click(object sender, EventArgs e) {
 
-            tsslbMessage.Text = String.Empty;   //ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸é ˜åŸŸã®ã‚¯ãƒªã‚¢
+            tsslbMessage.Text = String.Empty;   //ƒƒbƒZ[ƒW—Ìˆæ‚ÌƒNƒŠƒA
 
-            //è¨˜éŒ²è€…ã¨è»ŠåãŒæœªå…¥åŠ›ã ã£ãŸå ´åˆã¯è¿½åŠ ã—ãªã„
+            //‹L˜^Ò‚ÆÔ–¼‚ª–¢“ü—Í‚¾‚Á‚½ê‡‚Í’Ç‰Á‚µ‚È‚¢
             //if(cbAuthor.Text == String.Empty || cbCarName.Text == String.Empty) {
             if (String.IsNullOrWhiteSpace(cbAuthor.Text) || String.IsNullOrWhiteSpace(cbCarName.Text)) {
-                tsslbMessage.Text = "è¨˜éŒ²è€…ã€ã¾ãŸã¯è»ŠåãŒæœªå…¥åŠ›ã§ã™";
+                tsslbMessage.Text = "‹L˜^ÒA‚Ü‚½‚ÍÔ–¼‚ª–¢“ü—Í‚Å‚·";
                 return;
             }
 
@@ -60,27 +64,27 @@ namespace CarReportSystem {
             };
             listCarReports.Add(carReport);
 
-            //å…¥åŠ›å±¥æ­´ã‚’ç™»éŒ²
+            //“ü—Í—š—ğ‚ğ“o˜^
             SetCbAuthor(cbAuthor.Text.Trim());
             SetCbCarName(cbCarName.Text.Trim());
 
-            dgvRecords.ClearSelection(); //ã‚»ãƒ«ã®é¸æŠã‚’è§£é™¤ã™ã‚‹
-            InputItemsUpdate(); //ãƒ‡ãƒ¼ã‚¿ã‚°ãƒªãƒƒãƒ‰ãƒ“ãƒ¥ãƒ¼ã‚’æ›´æ–°ã—ãŸã‚‰å‘¼ã¶ãƒ¡ã‚½ãƒƒãƒ‰
+            dgvRecords.ClearSelection(); //ƒZƒ‹‚Ì‘I‘ğ‚ğ‰ğœ‚·‚é
+            InputItemsUpdate(); //ƒf[ƒ^ƒOƒŠƒbƒhƒrƒ…[‚ğXV‚µ‚½‚çŒÄ‚Ôƒƒ\ƒbƒh
         }
 
         private MakerGroup GetRadioButtonMaker() {
             if (rbToyota.Checked)
-                return MakerGroup.ãƒˆãƒ¨ã‚¿;
+                return MakerGroup.ƒgƒˆƒ^;
             if (rbNissan.Checked)
-                return MakerGroup.æ—¥ç”£;
+                return MakerGroup.“úY;
             if (rbHonda.Checked)
-                return MakerGroup.ãƒ›ãƒ³ãƒ€;
+                return MakerGroup.ƒzƒ“ƒ_;
             if (rbSubaru.Checked)
-                return MakerGroup.ã‚¹ãƒãƒ«;
+                return MakerGroup.ƒXƒoƒ‹;
             if (rbImport.Checked)
-                return MakerGroup.è¼¸å…¥è»Š;
+                return MakerGroup.—A“üÔ;
 
-            return MakerGroup.ãã®ä»–;
+            return MakerGroup.‚»‚Ì‘¼;
         }
         private void btOpenPicture_Click(object sender, EventArgs e) {
             if (ofdPicFileOpen.ShowDialog() == DialogResult.OK) {
@@ -98,26 +102,26 @@ namespace CarReportSystem {
             tbReport.Text = string.Empty;
             pbPicture.Image = null;
 
-            dgvRecords.ClearSelection();//ã‚»ãƒ«ã®é¸æŠã‚’è§£é™¤ã™ã‚‹
+            dgvRecords.ClearSelection();//ƒZƒ‹‚Ì‘I‘ğ‚ğ‰ğœ‚·‚é
         }
 
         private void SetRadioButtonMaker(MakerGroup targetMaker) {
 
             switch (targetMaker) {
 
-                case MakerGroup.ãƒˆãƒ¨ã‚¿:
+                case MakerGroup.ƒgƒˆƒ^:
                     rbToyota.Checked = true;
                     break;
-                case MakerGroup.æ—¥ç”£:
+                case MakerGroup.“úY:
                     rbNissan.Checked = true;
                     break;
-                case MakerGroup.ãƒ›ãƒ³ãƒ€:
+                case MakerGroup.ƒzƒ“ƒ_:
                     rbHonda.Checked = true;
                     break;
-                case MakerGroup.ã‚¹ãƒãƒ«:
+                case MakerGroup.ƒXƒoƒ‹:
                     rbSubaru.Checked = true;
                     break;
-                case MakerGroup.è¼¸å…¥è»Š:
+                case MakerGroup.—A“üÔ:
                     rbImport.Checked = true;
                     break;
                 default:
@@ -125,15 +129,15 @@ namespace CarReportSystem {
                     break;
             }
         }
-        //è¨˜éŒ²è€…ã®å…¥åŠ›å±¥æ­´ã‚’ã‚³ãƒ³ãƒœãƒœãƒƒã‚¯ã‚¹ã¸ç™»éŒ²ï¼ˆé‡è¤‡ãªã—ï¼‰
+        //‹L˜^Ò‚Ì“ü—Í—š—ğ‚ğƒRƒ“ƒ{ƒ{ƒbƒNƒX‚Ö“o˜^id•¡‚È‚µj
         private void SetCbAuthor(string author) {
-            //æœªç™»éŒ²ãªã‚‰ç™»éŒ²ã€ç™»éŒ²æ¸ˆã¿ãªã‚‰ä½•ã‚‚ã—ãªã„ã€‘
+            //–¢“o˜^‚È‚ç“o˜^y“o˜^Ï‚İ‚È‚ç‰½‚à‚µ‚È‚¢z
             if (!cbAuthor.Items.Contains(author))
                 cbAuthor.Items.Add(author);
         }
-        //è»Šåã®å…¥åŠ›å±¥æ­´ã‚’ã‚³ãƒ³ãƒœãƒœãƒƒã‚¯ã‚¹ã¸ç™»éŒ²ï¼ˆé‡è¤‡ãªã—ï¼‰
+        //Ô–¼‚Ì“ü—Í—š—ğ‚ğƒRƒ“ƒ{ƒ{ƒbƒNƒX‚Ö“o˜^id•¡‚È‚µj
         private void SetCbCarName(string carName) {
-            //æœªç™»éŒ²ãªã‚‰ç™»éŒ²ã€ç™»éŒ²æ¸ˆã¿ãªã‚‰ä½•ã‚‚ã—ãªã„ã€‘
+            //–¢“o˜^‚È‚ç“o˜^y“o˜^Ï‚İ‚È‚ç‰½‚à‚µ‚È‚¢z
             if (!cbCarName.Items.Contains(carName))
                 cbCarName.Items.Add(carName);
 
@@ -145,12 +149,12 @@ namespace CarReportSystem {
             if ((dgvRecords.CurrentRow is null)
                 || (!dgvRecords.CurrentRow.Selected)) return;
 
-            //å‰Šé™¤ã—ãŸã„ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’æŒ‡å®šã—ã¦ãƒªã‚¹ãƒˆã‹ã‚‰å‰Šé™¤
+            //íœ‚µ‚½‚¢ƒCƒ“ƒfƒbƒNƒX‚ğw’è‚µ‚ÄƒŠƒXƒg‚©‚çíœ
             listCarReports.RemoveAt(dgvRecords.CurrentRow.Index);
 
-            InputItemsUpdate(); //ãƒ‡ãƒ¼ã‚¿ã‚°ãƒªãƒƒãƒ‰ãƒ“ãƒ¥ãƒ¼ã‚’æ›´æ–°ã—ãŸã‚‰å‘¼ã¶ãƒ¡ã‚½ãƒƒãƒ‰
+            InputItemsUpdate(); //ƒf[ƒ^ƒOƒŠƒbƒhƒrƒ…[‚ğXV‚µ‚½‚çŒÄ‚Ôƒƒ\ƒbƒh
         }
-        //ãƒ‡ãƒ¼ã‚¿ã‚°ãƒªãƒƒãƒ‰ãƒ“ãƒ¥ãƒ¼ã‚’æ›´æ–°ã—ãŸã‚‰å‘¼ã¶ãƒ¡ã‚½ãƒƒãƒ‰
+        //ƒf[ƒ^ƒOƒŠƒbƒhƒrƒ…[‚ğXV‚µ‚½‚çŒÄ‚Ôƒƒ\ƒbƒh
         private void InputItemsUpdate() {
             if (!dgvRecords.CurrentRow.Selected)
                 InputItemsAllClear();
@@ -158,17 +162,17 @@ namespace CarReportSystem {
         private void btModifyRecord_Click(object sender, EventArgs e) {
 
             if (dgvRecords.SelectedRows.Count == 0) {
-                tsslbMessage.Text = "ä¿®æ­£ã™ã‚‹ãƒ¬ãƒãƒ¼ãƒˆã‚’é¸æŠã—ã¦ãã ã•ã„";
+                tsslbMessage.Text = "C³‚·‚éƒŒƒ|[ƒg‚ğ‘I‘ğ‚µ‚Ä‚­‚¾‚³‚¢";
                 return;
             }
 
             if (String.IsNullOrWhiteSpace(cbAuthor.Text)
                     || String.IsNullOrWhiteSpace(cbCarName.Text)) {
-                tsslbMessage.Text = "è¨˜éŒ²è€…ã€ã¾ãŸã¯è»ŠåãŒæœªå…¥åŠ›ã§ã™";
+                tsslbMessage.Text = "‹L˜^ÒA‚Ü‚½‚ÍÔ–¼‚ª–¢“ü—Í‚Å‚·";
                 return;
             }
 
-            //ã‚«ãƒ¼ãƒ¬ãƒãƒ¼ãƒˆç®¡ç†ç”¨ãƒªã‚¹ãƒˆã®è©²å½“ã™ã‚‹è¦ç´ ã®ãƒ‡ãƒ¼ã‚¿ã‚’æ›¸ãæ›ãˆã‚‹
+            //ƒJ[ƒŒƒ|[ƒgŠÇ——pƒŠƒXƒg‚ÌŠY“–‚·‚é—v‘f‚Ìƒf[ƒ^‚ğ‘‚«Š·‚¦‚é
             listCarReports[dgvRecords.CurrentRow.Index].Date = dtpDate.Value.Date;
             listCarReports[dgvRecords.CurrentRow.Index].Author = cbAuthor.Text.Trim();
             listCarReports[dgvRecords.CurrentRow.Index].Maker = GetRadioButtonMaker();
@@ -179,8 +183,8 @@ namespace CarReportSystem {
             SetCbAuthor(cbAuthor.Text.Trim());
             SetCbCarName(cbCarName.Text.Trim());
 
-            dgvRecords.Refresh();   //ãƒ‡ãƒ¼ã‚¿ã‚°ãƒªãƒƒãƒ‰ãƒ“ãƒ¥ãƒ¼ã®æ›´æ–°
-            tsslbMessage.Text = "ãƒ¬ãƒãƒ¼ãƒˆã‚’ä¿®æ­£ã—ã¾ã—ãŸ";
+            dgvRecords.Refresh();   //ƒf[ƒ^ƒOƒŠƒbƒhƒrƒ…[‚ÌXV
+            tsslbMessage.Text = "ƒŒƒ|[ƒg‚ğC³‚µ‚Ü‚µ‚½";
         }
 
         private void dgvRecords_SelectionChanged(object sender, EventArgs e) {
@@ -195,30 +199,63 @@ namespace CarReportSystem {
             tbReport.Text = carReport.Report;
             pbPicture.Image = carReport.Picture;
 
-            InputItemsUpdate(); //ãƒ‡ãƒ¼ã‚¿ã‚°ãƒªãƒƒãƒ‰ãƒ“ãƒ¥ãƒ¼ã‚’æ›´æ–°ã—ãŸã‚‰å‘¼ã¶ãƒ¡ã‚½ãƒƒãƒ‰
+            InputItemsUpdate(); //ƒf[ƒ^ƒOƒŠƒbƒhƒrƒ…[‚ğXV‚µ‚½‚çŒÄ‚Ôƒƒ\ƒbƒh
         }
 
-        private void çµ‚äº†ToolStripMenuItem_Click(object sender, EventArgs e) {
+        private void I—¹ToolStripMenuItem_Click(object sender, EventArgs e) {
             Application.Exit();
         }
 
-        private void è‰²è¨­å®šToolStripMenuItem_Click(object sender, EventArgs e) {
+        private void Fİ’èToolStripMenuItem_Click(object sender, EventArgs e) {
             if (cdColor.ShowDialog() == DialogResult.OK) {
                 BackColor = cdColor.Color;
-                //å¤‰æ›´ã•ã‚ŒãŸè‰²ã®æƒ…å ±ã‚’ä¿å­˜
+                //•ÏX‚³‚ê‚½F‚Ìî•ñ‚ğ•Û‘¶
                 settings.MainFormBackColor = cdColor.Color.ToArgb();
             }
         }
 
-        //ãƒ•ã‚©ãƒ¼ãƒ ãŒé–‰ã˜ãŸã‚‰å‘¼ã°ã‚Œã‚‹ã‚¤ãƒ™ãƒ³ãƒˆãƒãƒ³ãƒ‰ãƒ©
+        //ƒtƒH[ƒ€‚ª•Â‚¶‚½‚çŒÄ‚Î‚ê‚éƒCƒxƒ“ƒgƒnƒ“ƒhƒ‰
         private void Form1_FormClosed(object sender, FormClosedEventArgs e) {
-            //è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«ã¸è‰²æƒ…å ±ã‚’ä¿å­˜ã™ã‚‹å‡¦ç†ï¼ˆã‚·ãƒªã‚¢ãƒ«åŒ–ï¼‰
-            //P284ä»¥é™ã‚’å‚è€ƒã«ã™ã‚‹ï¼ˆãƒ•ã‚¡ã‚¤ãƒ«åï¼šsetting.xmlï¼‰
+            //İ’èƒtƒ@ƒCƒ‹‚ÖFî•ñ‚ğ•Û‘¶‚·‚éˆ—iƒVƒŠƒAƒ‹‰»j
+            //P284ˆÈ~‚ğQl‚É‚·‚éiƒtƒ@ƒCƒ‹–¼Fsetting.xmlj
 
             using (var writer = XmlWriter.Create("setting.xml")) {
                 var serializer = new XmlSerializer(settings.GetType());
                 serializer.Serialize(writer, settings);
             }
         }
+
+        private void •Û‘¶ToolStripMenuItem_Click(object sender, EventArgs e) {
+            reportSaveFile();
+        }
+
+        //ƒtƒ@ƒCƒ‹ƒZ[ƒuˆ—
+        private void reportSaveFile() {
+            if (sfdReportFileSave.ShowDialog() == DialogResult.OK) {
+                try {
+                    //ƒoƒCƒiƒŠŒ`®‚ÅƒVƒŠƒAƒ‹‰»
+#pragma warning disable SYSLIB0011
+                    var bf = new BinaryFormatter();
+#pragma warning restore SYSLIB0011
+
+
+
+                }
+                catch (Exception ex) {
+                    tsslbMessage.Text = "ƒtƒ@ƒCƒ‹‘‚«o‚µƒGƒ‰[";
+                    MessageBox.Show(ex.Message);
+                }
+            }
+        }
+
+        //ƒtƒ@ƒCƒ‹ƒI[ƒvƒ“ˆ—
+        private void reportOpenFile() {
+
+
+
+
+        }
+
+
     }
 }
