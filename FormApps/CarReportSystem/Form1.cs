@@ -254,14 +254,14 @@ namespace CarReportSystem {
 
         //ファイルオープン処理
         private void reportOpenFile() {
-            if (ofdReportFileSave.ShowDialog() == DialogResult.OK) {
+            if (ofdReportFileOpen.ShowDialog() == DialogResult.OK) {
                 try {
                     //逆シリアル化でバイナリ形式を取り込む
 #pragma warning disable SYSLIB0011
                     var bf = new BinaryFormatter();
 #pragma warning restore SYSLIB0011
                     using (FileStream fs = File.Open(
-                        ofdReportFileSave.FileName, //ファイル名
+                        ofdReportFileOpen.FileName, //ファイル名
                         FileMode.Open,  //ファイルモード
                         FileAccess.Read //アクセス
                         )) {
@@ -286,5 +286,6 @@ namespace CarReportSystem {
             }
 
         }
+
     }
 }
