@@ -17,14 +17,14 @@ public static class Database
     public static string FilePath => DatabasePath;
 
     //新しいSQLiteConnectionを生成して返す
-    public static SqliteConnection GetSqliteConnection() {
+    public static SqliteConnection GetConnection() {
         return new SqliteConnection(ConnectionString);
     }
 
     //DBの初期化処理
     public static void Initialize() {
         //接続オブジェクトを生成する。
-        using var connection = GetSqliteConnection();
+        using var connection = GetConnection();
 
         //DBを開く
         connection.Open();
