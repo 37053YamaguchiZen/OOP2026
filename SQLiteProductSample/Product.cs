@@ -16,4 +16,4 @@ public class Product
     //¤•i‰¿Ši
     [DisplayName("‰¿Ši")]
     public int Price { get; set; }
-}
+}@
