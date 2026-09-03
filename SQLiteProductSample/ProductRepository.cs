@@ -87,7 +87,7 @@ public class ProductRepository
 
         //更新件数が0なら対象が存在しない
         if (command.ExecuteNonQuery() == 0)
-            throw new InvalidOperationException("修正対象の商品が見つかりませんでした。");
+            throw new InvalidOperationException("修正対象の商品が見つかりませんでした。");　
     }
     
     public void Delete(int id) {
