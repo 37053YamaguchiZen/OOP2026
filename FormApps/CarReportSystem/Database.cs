@@ -3,11 +3,10 @@ using Microsoft.Data.Sqlite;
 namespace SQLiteProductSample;
 
 //SQLiteデータベースへの接続と初期化を担当するクラス
-public static class Database
-{
+public static class Database {
     //DBファイルの保存場所
     private static readonly string DatabasePath =
-          Path.Combine(AppContext.BaseDirectory, "products.db");
+          Path.Combine(AppContext.BaseDirectory, "carreports.db");
 
     //SQLiteへ接続するための接続文字列
     private static readonly string ConnectionString =
@@ -32,14 +31,18 @@ public static class Database
         //SQLを実行するためのコマンドオブジェクトを作る
         using var command = connection.CreateCommand();
 
-        // Productsテーブルを作るSQL
+        // carreportsテーブルを作るSQL
         // IF NOT EXISTS により、既にテーブルがあってもエラーにならない
         command.CommandText =
             """
-            CREATE TABLE IF NOT EXISTS Products(
+            CREATE TABLE IF NOT EXISTS CarReports(
                 Id      INTEGER PRIMARY KEY AUTOINCREMENT,
-                Name    TEXT NOT NULL,  
-                Price   INTEGER NOT NULL CHECK (Price >= 0)
+                Date    TEXT    NOT NULL,
+                Author  TEXT    NOT NULL,
+                Maker   INTEGER NOT NULL,
+                CarName TEXT    NOT NULL,
+                Report  TEXT    NOT NULL
+                Picture BLOB
             );
             """;
 

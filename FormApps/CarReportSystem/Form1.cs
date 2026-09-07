@@ -1,8 +1,5 @@
 using System.ComponentModel;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Security.Cryptography.X509Certificates;
-using System.Xml;
-using System.Xml.Serialization;
 using static CarReportSystem.CarReport;
 
 namespace CarReportSystem {
