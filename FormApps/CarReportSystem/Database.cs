@@ -41,7 +41,7 @@ public static class Database {
                 Author  TEXT    NOT NULL,
                 Maker   INTEGER NOT NULL,
                 CarName TEXT    NOT NULL,
-                Report  TEXT    NOT NULL
+                Report  TEXT    NOT NULL,
                 Picture BLOB
             );
             """;

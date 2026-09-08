@@ -1,3 +1,4 @@
+using SQLiteProductSample;
 using System.ComponentModel;
 using System.Runtime.Serialization.Formatters.Binary;
 using static CarReportSystem.CarReport;
@@ -276,8 +277,6 @@ namespace CarReportSystem {
                     MessageBox.Show(ex.Message);
                 }
             }
-
         }
-
     }
 }
