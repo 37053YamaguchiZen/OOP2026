@@ -1,7 +1,9 @@
-using Microsoft.Data.Sqlite;
+using System.Drawing.Imaging;
+using CarReportSystem;
 using System.Globalization;
 
-namespace CarReportSystem;
+
+namespace SQLiteProductSample;
 
 public class CarReportRepository
 {
@@ -10,9 +12,9 @@ public class CarReportRepository
     //CRUD(Create / Read /Update / Delete)を担当する
     public List<CarReport> GetAll() {
 
-        var reports = new List<CarReport>();
+        var carReports = new List<CarReport>();
 
-        using var connection = CarReport.GetConnection();
+        using var connection = Database.GetConnection();
         connection.Open();
 
         //SQLを実行するためのコマンドオブジェクトを作る
@@ -21,7 +23,7 @@ public class CarReportRepository
         //Productsテーブルを作るSQL
         command.CommandText =
             """
-            SELECT Id, ,Date, Author, Maker, CarName,Report, Picture
+            SELECT Id, Date, Author, Maker, CarName,Report, Picture
             FROM CarReports
             ORDER BY Id;
             """;
@@ -30,26 +32,26 @@ public class CarReportRepository
         using var reader = command.ExecuteReader();
 
         while (reader.Read()) {
-            reports.Add(new CarReport {
+            carReports.Add(new CarReport {
                 Id = reader.GetInt32(0),    //0列目:Id
                 Date = DateTime.ParseExact(
                     reader.GetString(1),
-                    "yyyy-mm-dd",
+                    "yyyy-MM-dd",
                     CultureInfo.InvariantCulture),  //1列目:Name
                 Author = reader.GetString(2),  //2列目:Price
                 Maker = (CarReport.MakerGroup)reader.GetInt32(3),
-                CarName = reader.String(4),
-                Report = reader.String(5),
-                //Picture = (6)
+                CarName = reader.GetString(4),
+                Report = reader.GetString(5),
+                Picture = BytesToImage(reader.GetFieldValue<byte[]>(6))
 
             });
         }
-        return reports;
+        return carReports;
     }
 
-    public int Add(string name, int price) {
+    public int Add(CarReport carReport) {
         //接続オブジェクトを生成する。
-        using var connection = CarReport.GetConnection();
+        using var connection = Database.GetConnection();
         connection.Open();
         using var command = connection.CreateCommand();
 
@@ -61,8 +63,12 @@ public class CarReportRepository
             SELECT last_insert_rowid();
             """;
 
-        command.Parameters.AddWithValue("$name", name);
-        command.Parameters.AddWithValue("$price", price);
+        command.Parameters.AddWithValue("$date", carReport);
+        command.Parameters.AddWithValue("$author", carReport);
+        command.Parameters.AddWithValue("$maker", carReport);
+        command.Parameters.AddWithValue("$carName", carReport);
+        command.Parameters.AddWithValue("$report", carReport);
+        command.Parameters.AddWithValue("$picture", carReport);
 
         //一つの値を返すSQLを実行する
         var result = command.ExecuteScalar();
@@ -74,9 +80,9 @@ public class CarReportRepository
         return Convert.ToInt32((long)result);
 
     }
-    public void Update(CarReport report) {
+    public void Update(CarReport carReport) {
         //接続オブジェクトを生成する。
-        using var connection = CarReport.GetConnection();
+        using var connection = Database.GetConnection();
         connection.Open();
         using var command = connection.CreateCommand();
 
@@ -88,12 +94,12 @@ public class CarReportRepository
             WHERE Id = $id;
             """;
 
-        command.Parameters.AddWithValue("$date",   report.Date);
-        command.Parameters.AddWithValue("$author", report.Author);
-        command.Parameters.AddWithValue("$maker",  report.Maker);
-        command.Parameters.AddWithValue("$carName", report.CarName);
-        command.Parameters.AddWithValue("$report", report.Report);
-        command.Parameters.AddWithValue("picture", report.Picture);
+        command.Parameters.AddWithValue("$date",    carReport.Date);
+        command.Parameters.AddWithValue("$author",  carReport.Author);
+        command.Parameters.AddWithValue("$maker",   carReport.Maker);
+        command.Parameters.AddWithValue("$carName", carReport.CarName);
+        command.Parameters.AddWithValue("$report",  carReport.Report);
+        command.Parameters.AddWithValue("$picture", carReport.Picture);
 
         //更新件数が0なら対象が存在しない
         if (command.ExecuteNonQuery() == 0)
@@ -101,7 +107,7 @@ public class CarReportRepository
     }
     
     public void Delete(int id) {
-        using var connection = CarReport.GetConnection();
+        using var connection = Database.GetConnection();
         connection.Open();
 
         using var command = connection.CreateCommand();
@@ -115,5 +121,22 @@ public class CarReportRepository
         command.Parameters.AddWithValue("$id", id);
         command.ExecuteNonQuery();
         
+    }
+    // ImageをSQLiteへ保存できるbyte[]へ変換する
+    private static byte[]? ImageToBytes(Image? image) {
+        if (image is null) return null;
+
+        using var stream = new MemoryStream();
+        // DBへはPNG形式で保存
+        image.Save(stream, ImageFormat.Png);
+        return stream.ToArray();
+    }
+
+    // SQLiteのBLOB（byte[]）をImageへ変換する
+    private static Image BytesToImage(byte[] data) {
+        using var stream = new MemoryStream(data);
+        using var image = Image.FromStream(stream);
+        // MemoryStream破棄後も利用できるようBitmapとしてコピーする。
+        return new Bitmap(image);
     }
 }
