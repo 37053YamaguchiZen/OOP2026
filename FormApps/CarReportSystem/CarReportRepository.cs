@@ -43,7 +43,8 @@ public class CarReportRepository
                 Maker = (CarReport.MakerGroup)reader.GetInt32(3),
                 CarName = reader.GetString(4),
                 Report = reader.GetString(5),
-                Picture = BytesToImage(reader.GetFieldValue<byte[]>(6))
+                Picture = reader.IsDBNull(6)
+              ? null : BytesToImage(reader.GetFieldValue<byte[]>(6))
 
             });
         }
@@ -66,6 +67,15 @@ public class CarReportRepository
 
         SetCommandParameters(carReport, command);
 
+        byte[]? pictureData = ImageToBytes(carReport.Picture);
+        var pictureParameter = command.Parameters.Add($"Picture", SqliteType.Blob);
+
+        if (pictureData is not null) {
+            pictureParameter.Value = pictureData;
+        } else {
+            pictureParameter.Value = DBNull.Value;
+        }
+
         //一つの値を返すSQLを実行する
         var result = command.ExecuteScalar();
 
@@ -78,10 +88,10 @@ public class CarReportRepository
     }
 
     public static void SetCommandParameters(CarReport report, SqliteCommand command) {
-        command.Parameters.AddWithValue("$date", report.Date.ToString("yyyy-mm-dd", CultureInfo.InvariantCulture));
+        command.Parameters.AddWithValue("$date", report.Date.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture));
         command.Parameters.AddWithValue("$author", report.Author);
         command.Parameters.AddWithValue("$maker", report.Maker);
-        command.Parameters.AddWithValue("$carname", report.CarName);
+        command.Parameters.AddWithValue("$carName", report.CarName);
         command.Parameters.AddWithValue("$report", report.Report);
         // command.Parameters.AddWithValue("$picture", carReport.Picture);
         byte[]? pictureData = ImageToBytes(report.Picture);
@@ -110,9 +120,9 @@ public class CarReportRepository
         command.Parameters.AddWithValue("$date",    carReport.Date);
         command.Parameters.AddWithValue("$author",  carReport.Author);
         command.Parameters.AddWithValue("$maker",   carReport.Maker);
-        command.Parameters.AddWithValue("$carName", carReport.CarName);
+        command.Parameters.AddWithValue("$carname", carReport.CarName);
         command.Parameters.AddWithValue("$report",  carReport.Report);
-        command.Parameters.AddWithValue("$picture", carReport.Picture);
+        //command.Parameters.AddWithValue("$picture", carReport.Picture);
 
         //更新件数が0なら対象が存在しない
         if (command.ExecuteNonQuery() == 0)

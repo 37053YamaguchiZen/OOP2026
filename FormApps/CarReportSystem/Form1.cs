@@ -7,14 +7,17 @@ namespace CarReportSystem {
     public partial class Form1 : Form {
 
         //カーレポート管理用リスト
-        BindingList<CarReport> listCarReports = new BindingList<CarReport>();
+        private readonly BindingList<CarReport> _carreports = new();
+
+        private readonly CarReportRepository _repository = new();
 
         //設定クラスのオブジェクトを生成
         //Settings settings = Settings.Instance;
 
         public Form1() {
             InitializeComponent();
-            dgvRecords.DataSource = listCarReports;
+            dgvRecords.DataSource = _carreports;
+            ReloadCarReports();
         }
 
         private void Form1_Load(object sender, EventArgs e) {
@@ -49,7 +52,9 @@ namespace CarReportSystem {
                 Report = tbReport.Text,
                 Picture = pbPicture.Image,
             };
-            listCarReports.Add(carReport);
+
+            _repository.Add(carReport);
+            ReloadCarReports();
 
             //入力履歴を登録
             SetCbAuthor(cbAuthor.Text.Trim());
@@ -141,7 +146,7 @@ namespace CarReportSystem {
                 tsslbMessage.Text = "削除するレポートを選択してください";
                 return;
             }
-            listCarReports.Remove(carReport);
+            _carreports.Remove(carReport);
 
             InputItemsUpdate(); //データグリッドビューを更新したら呼ぶメソッド
         }
@@ -170,12 +175,12 @@ namespace CarReportSystem {
             }
 
             //カーレポート管理用リストの該当する要素のデータを書き換える
-            listCarReports[dgvRecords.CurrentRow.Index].Date = dtpDate.Value.Date;
-            listCarReports[dgvRecords.CurrentRow.Index].Author = cbAuthor.Text.Trim();
-            listCarReports[dgvRecords.CurrentRow.Index].Maker = GetRadioButtonMaker();
-            listCarReports[dgvRecords.CurrentRow.Index].CarName = cbCarName.Text.Trim();
-            listCarReports[dgvRecords.CurrentRow.Index].Report = tbReport.Text;
-            listCarReports[dgvRecords.CurrentRow.Index].Picture = pbPicture.Image;
+            _carreports[dgvRecords.CurrentRow.Index].Date = dtpDate.Value.Date;
+            _carreports[dgvRecords.CurrentRow.Index].Author = cbAuthor.Text.Trim();
+            _carreports[dgvRecords.CurrentRow.Index].Maker = GetRadioButtonMaker();
+            _carreports[dgvRecords.CurrentRow.Index].CarName = cbCarName.Text.Trim();
+            _carreports[dgvRecords.CurrentRow.Index].Report = tbReport.Text;
+            _carreports[dgvRecords.CurrentRow.Index].Picture = pbPicture.Image;
 
 
 
@@ -199,6 +204,18 @@ namespace CarReportSystem {
             pbPicture.Image = carReport.Picture;
 
             InputItemsUpdate(); //データグリッドビューを更新したら呼ぶメソッド
+        }
+
+        private void ReloadCarReports() {
+            _carreports.Clear();
+
+            foreach (var carReport in _repository.GetAll()) {
+                _carreports.Add(carReport);
+
+                SetCbAuthor(carReport.Author);
+                SetCbCarName(carReport.CarName);
+            }
+            dgvRecords.ClearSelection();
         }
 
         private void 終了ToolStripMenuItem_Click(object sender, EventArgs e) {
@@ -237,7 +254,7 @@ namespace CarReportSystem {
                     var bf = new BinaryFormatter();
 #pragma warning restore SYSLIB0011
                     using (FileStream fs = File.Open(sfdReportFileSave.FileName, FileMode.Create)) {
-                        bf.Serialize(fs, listCarReports);
+                        bf.Serialize(fs, _carreports);
                     }
                 }
                 catch (Exception ex) {
@@ -261,15 +278,15 @@ namespace CarReportSystem {
                         FileAccess.Read //アクセス
                         )) {
 
-                        listCarReports = (BindingList<CarReport>)bf.Deserialize(fs);
-                        dgvRecords.DataSource = listCarReports;
+                        //_carreports = (BindingList<CarReport>)bf.Deserialize(fs)
+                        dgvRecords.DataSource = _carreports;
                     }
                     //コンボボックスの履歴をすべて消す
                     cbAuthor.Items.Clear();
                     cbCarName.Items.Clear();
 
                     //コンボボックスの履歴を再登録
-                    foreach (var report in listCarReports) {
+                    foreach (var report in _carreports) {
                         SetCbAuthor(report.Author);
                         SetCbCarName(report.CarName);
                     }
