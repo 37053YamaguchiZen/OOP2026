@@ -143,6 +143,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AspNetCoreMVC", "AspNetCore
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvcBasicSample", "AspNetCoreMVC\MvcBasicSample\MvcBasicSample.csproj", "{408F81EF-E5D3-4847-9759-96890B863E92}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SelfOrderSystem", "AspNetCoreMVC\SelfOrderSystem\SelfOrderSystem.csproj", "{EEE092AB-0236-4337-92CB-BA24B9DB1905}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -471,6 +473,14 @@ Global
 		{408F81EF-E5D3-4847-9759-96890B863E92}.Release|Any CPU.Build.0 = Release|Any CPU
 		{408F81EF-E5D3-4847-9759-96890B863E92}.Release|x64.ActiveCfg = Release|Any CPU
 		{408F81EF-E5D3-4847-9759-96890B863E92}.Release|x64.Build.0 = Release|Any CPU
+		{EEE092AB-0236-4337-92CB-BA24B9DB1905}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EEE092AB-0236-4337-92CB-BA24B9DB1905}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EEE092AB-0236-4337-92CB-BA24B9DB1905}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{EEE092AB-0236-4337-92CB-BA24B9DB1905}.Debug|x64.Build.0 = Debug|Any CPU
+		{EEE092AB-0236-4337-92CB-BA24B9DB1905}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EEE092AB-0236-4337-92CB-BA24B9DB1905}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EEE092AB-0236-4337-92CB-BA24B9DB1905}.Release|x64.ActiveCfg = Release|Any CPU
+		{EEE092AB-0236-4337-92CB-BA24B9DB1905}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -535,6 +545,7 @@ Global
 		{0B48C449-0B35-182D-2B8C-BFE6C8DF0359} = {199DE6A4-513F-4529-87F0-7CEDC8737B95}
 		{6B501314-6179-347C-71C1-1BDBD9214F6D} = {199DE6A4-513F-4529-87F0-7CEDC8737B95}
 		{408F81EF-E5D3-4847-9759-96890B863E92} = {E2824E75-4581-48D6-822A-61913224EFB1}
+		{EEE092AB-0236-4337-92CB-BA24B9DB1905} = {E2824E75-4581-48D6-822A-61913224EFB1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {ACB540FF-D31A-4B37-89F7-25C4091237B0}
