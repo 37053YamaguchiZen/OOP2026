@@ -21,10 +21,6 @@ public class HelloController : Controller {
             new Product {
                 Name = "ジュース",
                 Price = 300
-            },
-            new Product {
-                Name = "コーラ",
-                Price = 200
             }
         };
 
