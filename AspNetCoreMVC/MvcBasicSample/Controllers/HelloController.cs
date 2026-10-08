@@ -17,6 +17,14 @@ public class HelloController : Controller {
             new Product {
                 Name = "紅茶",
                 Price = 450
+            },
+            new Product {
+                Name = "ジュース",
+                Price = 300
+            },
+            new Product {
+                Name = "コーラ",
+                Price = 200
             }
         };
 
