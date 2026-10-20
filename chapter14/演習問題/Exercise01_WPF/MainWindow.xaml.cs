@@ -34,15 +34,14 @@ namespace Exercise01_WPF {
         public static async Task<string> ReadTextAsync(string fileName) {
             var sb = new StringBuilder();
 
-            using (var sr = new StreamReader(fileName)) {
-                // 行ごとに末尾まで非同期で読み込む
+            var sr = new StreamReader(fileName);
+                // ここに非同期でテキストファイルを読み込む処理を記述する
+
                 while (!sr.EndOfStream) {
-                    string line = await sr.ReadLineAsync();
+                    var line = await sr.ReadLineAsync();
                     sb.AppendLine(line);
                 }
-
                 return sb.ToString();
-            }
         }
     }
 }
