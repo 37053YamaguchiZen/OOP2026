@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DistanceConverter {
+﻿namespace DistanceConverter {
     public class FeetConverter {
         private static readonly double ratio = 0.3048;  //定数
 

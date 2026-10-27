@@ -1,19 +1,14 @@
-﻿
-
-namespace DistanceConverter
-{
-    internal class Program {
+﻿namespace DistanceConverter {
+    public class Program {
         static void Main(string[] args) {
 
             if (args.Length >= 3
                 && int.TryParse(args[1], out int start) && int.TryParse(args[2], out int end)) {
                 if (args[0] == "-tom") {
                     PrintFeetToMeterList(start, end);  //メートルへ変換
-                }
-                else if (args[0] == "-tof") {
+                } else if (args[0] == "-tof") {
                     PrintMeterToFeetList(start, end);  //フィートへ変換
-                }
-                else {
+                } else {
                     Console.WriteLine("Error!");  //エラーの表示
                 }
             }
@@ -36,4 +31,4 @@ namespace DistanceConverter
             }
         }
     }
-}   
+}
