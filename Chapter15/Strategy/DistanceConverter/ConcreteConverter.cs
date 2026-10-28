@@ -35,3 +35,17 @@ public class YardConverter : ConverterBase {
     public override string UnitName => "ヤード";
 }
 
+public class MilesConverter : ConverterBase {
+    public override bool IsMyUnit(string name) =>
+        name.Equals("miles", StringComparison.CurrentCultureIgnoreCase) || name == UnitName;
+    protected override double Raito => 1.609;
+    public override string UnitName => "マイル";
+}
+
+public class kilometerConverter : ConverterBase {
+    public override bool IsMyUnit(string name) =>
+        name.Equals("kilometer", StringComparison.CurrentCultureIgnoreCase) || name == UnitName;
+    protected override double Raito => 1000;
+    public override string UnitName => "キロメートル";
+}
+
