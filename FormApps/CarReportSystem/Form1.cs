@@ -1,3 +1,8 @@
+<<<<<<< Updated upstream
+=======
+using Microsoft.Data.Sqlite;
+using SQLiteProductSample;
+>>>>>>> Stashed changes
 using System.ComponentModel;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Security.Cryptography.X509Certificates;
@@ -21,16 +26,16 @@ namespace CarReportSystem {
 
         private void Form1_Load(object sender, EventArgs e) {
             //設定ファイルを読み込み背景色を設定する（逆シリアル化）
-                try {
-                    Settings.Instance.Load();
-                    BackColor = Color.FromArgb(Settings.Instance.MainFormBackColor);
-                }
-                catch (Exception ex) {
-                    tsslbMessage.Text = "設定ファイル読み込みエラー";
-                    MessageBox.Show(ex.Message);//←より具体的なエラーを出力         
-                }
+            try {
+                Settings.Instance.Load();
+                BackColor = Color.FromArgb(Settings.Instance.MainFormBackColor);
             }
-            
+            catch (Exception ex) {
+                tsslbMessage.Text = "設定ファイル読み込みエラー";
+                MessageBox.Show(ex.Message);//←より具体的なエラーを出力         
+            }
+        }
+
         //追加ボタンイベントハンドラ
         private void btAddRecord_Click(object sender, EventArgs e) {
 
@@ -134,26 +139,31 @@ namespace CarReportSystem {
         private void btDeletePicture_Click(object sender, EventArgs e) {
             pbPicture.Image = null;
         }
-        private void btDeleteRecord_Click(object sender, EventArgs e) {
-            if ((dgvRecords.CurrentRow is null)
-                || (!dgvRecords.CurrentRow.Selected)) return;
 
-            //削除したいインデックスを指定してリストから削除
-            if( dgvRecords.CurrentRow?.DataBoundItem is not CarReport carReport) {
+        private void btDeleteRecord_Click(object sender, EventArgs e) {
+            if (dgvRecords.CurrentRow?.DataBoundItem is not CarReport carReport) {
                 tsslbMessage.Text = "削除するレポートを選択してください";
                 return;
             }
+<<<<<<< Updated upstream
             listCarReports.Remove(carReport);
+=======
+>>>>>>> Stashed changes
 
-            InputItemsUpdate(); //データグリッドビューを更新したら呼ぶメソッド
+            _repository.Delete(carReport.Id);
+
+            ReloadCarReports();
+
+            tsslbMessage.Text = "削除しました";
         }
         //データグリッドビューを更新したら呼ぶメソッド
         private void InputItemsUpdate() {
-            if ( dgvRecords.CurrentRow is null
+            if (dgvRecords.CurrentRow is null
                     || !dgvRecords.CurrentRow.Selected)
                 InputItemsAllClear();
         }
         private void btModifyRecord_Click(object sender, EventArgs e) {
+
 
             if (dgvRecords.SelectedRows.Count == 0) {
                 tsslbMessage.Text = "修正するレポートを選択してください";
@@ -161,7 +171,7 @@ namespace CarReportSystem {
             }
 
             if (String.IsNullOrWhiteSpace(cbAuthor.Text)
-                    || String.IsNullOrWhiteSpace(cbCarName.Text)) {
+                || String.IsNullOrWhiteSpace(cbCarName.Text)) {
                 tsslbMessage.Text = "記録者、または車名が未入力です";
                 return;
             }
@@ -171,6 +181,7 @@ namespace CarReportSystem {
                 return;
             }
 
+<<<<<<< Updated upstream
             //カーレポート管理用リストの該当する要素のデータを書き換える
             listCarReports[dgvRecords.CurrentRow.Index].Date = dtpDate.Value.Date;
             listCarReports[dgvRecords.CurrentRow.Index].Author = cbAuthor.Text.Trim();
@@ -178,11 +189,26 @@ namespace CarReportSystem {
             listCarReports[dgvRecords.CurrentRow.Index].CarName = cbCarName.Text.Trim();
             listCarReports[dgvRecords.CurrentRow.Index].Report = tbReport.Text;
             listCarReports[dgvRecords.CurrentRow.Index].Picture = pbPicture.Image;
+=======
+            // データ更新
+            carReport.Date = dtpDate.Value.Date;
+            carReport.Author = cbAuthor.Text.Trim();
+            carReport.Maker = GetRadioButtonMaker();
+            carReport.CarName = cbCarName.Text.Trim();
+            carReport.Report = tbReport.Text;
+            carReport.Picture = pbPicture.Image;
 
+            // SQLite更新
+            _repository.Update(carReport);
+>>>>>>> Stashed changes
+
+            // 入力履歴更新
             SetCbAuthor(cbAuthor.Text.Trim());
             SetCbCarName(cbCarName.Text.Trim());
 
-            dgvRecords.Refresh();   //データグリッドビューの更新
+            // 再読込
+            ReloadCarReports();
+
             tsslbMessage.Text = "レポートを修正しました";
         }
 
@@ -256,11 +282,12 @@ namespace CarReportSystem {
                     var bf = new BinaryFormatter();
 #pragma warning restore SYSLIB0011
                     using (FileStream fs = File.Open(
-                        ofdReportFileOpen.FileName, //ファイル名
-                        FileMode.Open,  //ファイルモード
-                        FileAccess.Read //アクセス
-                        )) {
+            ofdReportFileOpen.FileName,
+            FileMode.Open,
+            FileAccess.Read)) {
+                        var reports = (BindingList<CarReport>)bf.Deserialize(fs);
 
+<<<<<<< Updated upstream
                         listCarReports = (BindingList<CarReport>)bf.Deserialize(fs);
                         dgvRecords.DataSource = listCarReports;
                     }
@@ -272,6 +299,13 @@ namespace CarReportSystem {
                     foreach (var report in listCarReports) {
                         SetCbAuthor(report.Author);
                         SetCbCarName(report.CarName);
+=======
+                        _carreports.Clear();
+
+                        foreach (var report in reports) {
+                            _carreports.Add(report);
+                        }
+>>>>>>> Stashed changes
                     }
                 }
                 catch (Exception ex) {
