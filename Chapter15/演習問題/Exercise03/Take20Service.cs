@@ -19,6 +19,7 @@ public class Take20Service : ITextFileService {
             Console.WriteLine(line);
         }
         _count++;
+
     }
 
     public void Terminate() {
