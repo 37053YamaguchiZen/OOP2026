@@ -1,54 +1,54 @@
-﻿using System.Security.Cryptography.X509Certificates;
-using System.Xml;
-using System.Xml.Serialization;
+﻿//using System.Security.Cryptography.X509Certificates;
+//using System.Xml;
+//using System.Xml.Serialization;
 
-namespace CarReportSystem {
-    public sealed class Settings {
+//namespace CarReportSystem {
+//    public sealed class Settings {
 
-        private const string FileName = "Setting.xml";
+//        private const string FileName = "Setting.xml";
 
-        //唯一のSettingオブジェクト
-        private static readonly Settings _instance = new Settings();
+//        //唯一のSettingオブジェクト
+//        private static readonly Settings _instance = new Settings();
 
-        //メイン画面に設定した色情報
-        public int MainFormBackColor { get; set; }
-            = SystemColors.Control.ToArgb();
+//        //メイン画面に設定した色情報
+//        public int MainFormBackColor { get; set; }
+//            = SystemColors.Control.ToArgb();
 
-        //唯一のオブジェクトを取得する
-        public static Settings Instance {
-            get { return _instance; }
-        }
+//        //唯一のオブジェクトを取得する
+//        public static Settings Instance {
+//            get { return _instance; }
+//        }
 
-        //外部からnewできないようにする
-        private Settings() { }
+//        //外部からnewできないようにする
+//        private Settings() { }
 
-        //設定ファイルからロード
-        public void Load() {
-            if (!File.Exists(FileName))
-                return;
+//        //設定ファイルからロード
+//        public void Load() {
+//            if (!File.Exists(FileName))
+//                return;
 
-            using var reader = XmlReader.Create(FileName);
-            var serializer = new XmlSerializer(typeof(SettingsDate));
+//            using var reader = XmlReader.Create(FileName);
+//            var serializer = new XmlSerializer(typeof(SettingsDate));
 
-            if (serializer.Deserialize(reader) is SettingsDate data) {
-                MainFormBackColor = data.MainFormBackColor;
-            }
-        }
+//            if (serializer.Deserialize(reader) is SettingsDate data) {
+//                MainFormBackColor = data.MainFormBackColor;
+//            }
+//        }
 
-        //設定ファイルを保存
-        public void Save() {
-            var date = new SettingsDate {
-                MainFormBackColor = MainFormBackColor
-            };
+//        //設定ファイルを保存
+//        public void Save() {
+//            var date = new SettingsDate {
+//                MainFormBackColor = MainFormBackColor
+//            };
 
-            using var writer = XmlWriter.Create(FileName);
-            var serializer = new XmlSerializer(typeof(SettingsDate));
-            serializer.Serialize(writer, date);
-        }
-    }
+//            using var writer = XmlWriter.Create(FileName);
+//            var serializer = new XmlSerializer(typeof(SettingsDate));
+//            serializer.Serialize(writer, date);
+//        }
+//    }
 
-    //XML保存用のクラス
-    public class SettingsDate {
-        public int MainFormBackColor { get; set; }
-    }
-}
+//    //XML保存用のクラス
+//    public class SettingsDate {
+//        public int MainFormBackColor { get; set; }
+//    }
+//}
