@@ -20,3 +20,26 @@ html {
 body {
   margin-bottom: 60px;
 }
+/* AIデザイン演習用の追加スタイル */
+:root {
+    --brand-color: #395c47;
+    --page-bg: #f7f6f1;
+}
+
+body {
+    background: var(--page-bg);
+}
+
+h1, h2 {
+    color: var(--brand-color);
+}
+
+.btn-success {
+    background-color: var(--brand-color);
+    border-color: var(--brand-color);
+}
+
+    .btn-success:hover {
+        background-color: #2b4535;
+        border-color: #2b4535;
+    }
