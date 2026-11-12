@@ -5,6 +5,7 @@ using SelfOrderSystem.Models;        // OrderStatusを使用
 using Microsoft.AspNetCore.SignalR;
 using SelfOrderSystem.Hubs;
 
+
 namespace SelfOrderSystem.Controllers;
 
 public class StaffController : Controller {
@@ -15,14 +16,17 @@ public class StaffController : Controller {
     // 既存のStaffControllerコンストラクタを置換 
     public StaffController(AppDbContext db,
         IHubContext<StaffOrdersHub> hubContext,
-        ILogger<StaffController> logger) {
+        ILogger<StaffController> logger) 
+    {
+
         _db = db; // 既存のDB操作 
         _hubContext = hubContext; // SignalRで通知 
         _logger = logger; // 通知エラーを記録 
     }
 
     [HttpGet] // 注文一覧を表示するGETリクエスト 
-    public async Task<IActionResult> Index() {
+    public async Task<IActionResult> Index() 
+    {
         var orders = await _db.Orders
             .AsNoTracking()                // 表示専用なので追跡しない 
             .Include(o => o.Items)         // 注文明細を一緒に取得 
@@ -37,7 +41,8 @@ public class StaffController : Controller {
     // 店員のボタン操作で注文状態を1段階進める 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Advance(int id) {
+    public async Task<IActionResult> Advance(int id) 
+        {
         // 注文IDから対象の注文を検索 
         var order = await _db.Orders.FindAsync(id);
         if (order == null) {
@@ -74,6 +79,4 @@ public class StaffController : Controller {
 
         return RedirectToAction(nameof(Index)); // 一覧へ戻る 
     }
-
-
 }
