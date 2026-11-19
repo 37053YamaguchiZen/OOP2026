@@ -1,7 +1,10 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SelfOrderSystem.Data;
-using SelfOrderSystem.Services;
 using SelfOrderSystem.Hubs;
+using SelfOrderSystem.Models;
+using SelfOrderSystem.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,6 +29,21 @@ builder.Services.AddScoped<IOrderService, OrderService>();
 
 builder.Services.AddSignalR();
 
+// スタッフのパスワード照合用のサービス 
+builder.Services.AddScoped<IPasswordHasher<StaffUser>,
+PasswordHasher<StaffUser>>();
+// Cookie を使ったログイン方式を登録 
+builder.Services.AddAuthentication(
+CookieAuthenticationDefaults.AuthenticationScheme)
+.AddCookie(options => {
+    options.LoginPath = "/Account/Login";// 未ログイン時の遷移先 
+    options.AccessDeniedPath = "/Account/Denied"; // 権限不足時の遷移先 
+    options.Cookie.HttpOnly = true;// JavaScript から読み取り不可 
+    options.Cookie.SecurePolicy = CookieSecurePolicy.Always; // HTTPS 限定 
+    options.ExpireTimeSpan = TimeSpan.FromHours(8); // 認証チケットの有効期間 
+});
+builder.Services.AddAuthorization();
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment()) {
@@ -42,7 +60,8 @@ if (!app.Environment.IsDevelopment()) {
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
-app.UseSession();                                // このリクエストでSessionを使えるようにする
+app.UseSession();  // このリクエストでSessionを使えるようにする
+app.UseAuthentication(); // 認証Cookie からログイン状態を復元
 app.UseAuthorization();
 
 app.MapControllerRoute(
@@ -51,4 +70,6 @@ app.MapControllerRoute(
 
 app.MapHub<StaffOrdersHub>("/staffOrdersHub");
 
+//初回だけスタッフアカウントを登録
+await StaffAccountSeeder.InitializeAsync(app.Services);
 app.Run();

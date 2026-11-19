@@ -89,8 +89,9 @@ public class OrderService : IOrderService   // IOrderServiceで定義した処�
         result.PublicId = order.PublicId; // 完了画面で使うID 
 
         try {
-            //店舗画面へ更新の合図を送る
-            await _hubContext.Clients.All.SendAsync("OrdersChanged");
+            //店舗画面へ更新の合図を送る(スタッフグループだけに通知 )
+            await _hubContext.Clients.Group("staff")
+                             .SendAsync("OrdersChanged");
         }
         catch (Exception ex) {
             // 通知失敗でも保存済みの注文は成功として扱う

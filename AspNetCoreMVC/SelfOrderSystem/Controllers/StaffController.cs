@@ -4,10 +4,13 @@ using SelfOrderSystem.Data;          // AppDbContextを使用
 using SelfOrderSystem.Models;        // OrderStatusを使用
 using Microsoft.AspNetCore.SignalR;
 using SelfOrderSystem.Hubs;
-
+using Microsoft.AspNetCore.Authorization;
 
 namespace SelfOrderSystem.Controllers;
 
+
+//Staff権限の人のみアクセス可
+[Authorize(Roles = "Staff")]
 public class StaffController : Controller {
     private readonly AppDbContext _db; // DBへの接続を担当 
     private readonly IHubContext<StaffOrdersHub> _hubContext;
@@ -70,7 +73,8 @@ public class StaffController : Controller {
                 .SendAsync("OrderStatusChanged");
 
             // 他の店舗画面にも一覧変更を通知 
-            await _hubContext.Clients.All.SendAsync("OrdersChanged");
+            await _hubContext.Clients.Group("staff")
+                             .SendAsync("OrdersChanged");
         }
         catch (Exception ex) {
             // 保存した注文状態は取り消さない 
