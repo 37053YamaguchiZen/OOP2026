@@ -1,0 +1,130 @@
+﻿<Window x:Class="WeatherApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="天気予報アプリ"
+        Height="500"
+        Width="600">
+
+    <Grid Background="#F0F4F8">
+
+        <Border
+        Margin="20"
+        Padding="20"
+        Background="White"
+        CornerRadius="15">
+
+            <StackPanel>
+
+                <TextBlock Text="🌤 東京の天気"
+                       FontSize="28"
+                       FontWeight="Bold"
+                       Foreground="#1E3A5F"
+                       HorizontalAlignment="Center"
+                       Margin="0,0,0,20"/>
+
+                <WrapPanel HorizontalAlignment="Center">
+
+                    <Border Background="#E3F2FD"
+                        CornerRadius="10"
+                        Padding="15"
+                        Margin="5">
+
+                        <StackPanel>
+                            <TextBlock Text="気温"
+                                   FontWeight="Bold"/>
+                            <TextBlock x:Name="TemperatureTextBlock"
+                                   FontSize="22"/>
+                        </StackPanel>
+                    </Border>
+
+                    <Border Background="#FFF3E0"
+                        CornerRadius="10"
+                        Padding="15"
+                        Margin="5">
+
+                        <StackPanel>
+                            <TextBlock Text="天気"
+                                   FontWeight="Bold"/>
+                            <TextBlock x:Name="WeatherTextBlock"
+                                   FontSize="22"/>
+                        </StackPanel>
+                    </Border>
+
+                    <Border Background="#E8F5E9"
+                        CornerRadius="10"
+                        Padding="15"
+                        Margin="5">
+
+                        <StackPanel>
+                            <TextBlock Text="湿度"
+                                   FontWeight="Bold"/>
+                            <TextBlock x:Name="HumidityTextBlock"
+                                   FontSize="22"/>
+                        </StackPanel>
+                    </Border>
+
+                    <Border Background="#F3E5F5"
+                        CornerRadius="10"
+                        Padding="15"
+                        Margin="5">
+
+                        <StackPanel>
+                            <TextBlock Text="風速"
+                                   FontWeight="Bold"/>
+                            <TextBlock x:Name="WindTextBlock"
+                                   FontSize="22"/>
+                        </StackPanel>
+                    </Border>
+
+                </WrapPanel>
+
+                <TextBlock Text="7日間予報"
+                       FontSize="20"
+                       FontWeight="Bold"
+                       Margin="0,25,0,10"/>
+
+                <DataGrid x:Name="ForecastDataGrid"
+                      AutoGenerateColumns="False"
+                      Height="300"
+                      CanUserAddRows="False"
+                      IsReadOnly="True"
+                      HeadersVisibility="Column">
+
+                    <DataGrid.Columns>
+
+                        <DataGridTextColumn
+                        Header="日付"
+                        Binding="{Binding Date}"
+                        Width="100"/>
+
+                        <DataGridTextColumn
+                        Header="天気"
+                        Binding="{Binding WeatherDescription}"
+                        Width="150"/>
+
+                        <DataGridTextColumn
+                        Header="最高"
+                        Binding="{Binding MaxTemperature}"
+                        Width="80"/>
+
+                        <DataGridTextColumn
+                        Header="最低"
+                        Binding="{Binding MinTemperature}"
+                        Width="80"/>
+
+                        <DataGridTextColumn
+                        Header="降水%"
+                        Binding="{Binding PrecipitationProbability}"
+                        Width="80"/>
+
+                    </DataGrid.Columns>
+
+                </DataGrid>
+
+            </StackPanel>
+
+        </Border>
+
+    </Grid>
+
+</Window>
